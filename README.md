@@ -1,47 +1,91 @@
+# 💳 Sistema Financeiro - Arquitetura Event-Driven com Spring Boot e Kafka
 
-🏦 Sistema de Simulação Bancária - Multithreading & Integridade
-Este projeto vai além de um simples CRUD bancário. Ele é um laboratório de testes para cenários de alta concorrência e consistência de dados em sistemas financeiros, utilizando Spring Boot e Java moderno.
+Projeto desenvolvido para simular um sistema bancário simplificado com foco em:
 
-🎯 Objetivo do Projeto
-Validar a segurança de transações financeiras quando múltiplos processos tentam debitar valores de uma mesma conta simultaneamente. O projeto foca em impedir problemas como o "Lost Update" (quando uma transação sobrescreve a outra) e garantir a precisão centesimal do saldo.
+- Processamento transacional
+- Arquitetura orientada a eventos
+- Concorrência
+- Desacoplamento entre serviços
+- Containerização com Docker
 
-🛠️ Stack Tecnológica
-Java 17
+---
 
-Spring Boot 3
+## 🚀 Tecnologias Utilizadas
 
-Spring Data JPA: Com foco em controle de concorrência.
+- Java 21
+- Spring Boot 3
+- Spring Data JPA
+- Hibernate
+- Apache Kafka
+- Docker & Docker Compose
+- PostgreSQL (ou H2, dependendo da sua config)
+- Apache Benchmark (testes de carga)
 
-H2 Database: Banco de dados em memória para testes rápidos.
+---
 
-Concurrent API: Uso de ExecutorService, CountDownLatch e Threads.
+## 🏗 Arquitetura
 
-🧠 Atitude de Aprendizado: "Deep Dive"
-O grande diferencial deste projeto não é apenas o código final, mas o processo de desenvolvimento. Durante a construção, adotei uma postura ativa de investigação técnica, buscando entender cada "engrenagem" do sistema:
+Fluxo principal:
 
-Gestão de Threads: Em vez de apenas rodar o código, busquei entender por que o ExecutorService é superior à criação manual de threads e como o pool de threads otimiza recursos.
+Controller  
+→ Service (@Transactional)  
+→ Banco de Dados  
+→ Publicação de Evento (Kafka)  
+→ Consumers independentes  
 
-Precisão Matemática: Questionei o uso de tipos primitivos e implementei BigDecimal, dominando métodos como multiply e subtract para garantir que nenhum centavo fosse perdido.
+Consumers implementados:
 
-Resolução de Conflitos JPA: Enfrentei e resolvi erros de anotações (como o conflito entre @Version do Hibernate vs. JPA), entendendo a importância dos imports corretos para o funcionamento do Optimistic Locking.
+- 📄 Geração de comprovante em PDF
+- 📲 Envio de notificação (push simulado)
 
-Logs Estratégicos: Implementei o uso de System.err para isolar falhas de fluxo, facilitando o debug em ambientes multithread.
+Arquitetura orientada a eventos garante:
 
-🚀 Características Técnicas Destacadas
-⚡ Teste de Estresse Simultâneo
-O projeto utiliza um CountDownLatch para garantir que todas as threads iniciem o processamento exatamente ao mesmo tempo, simulando um cenário real de pico de acessos.
+- Baixo acoplamento
+- Escalabilidade
+- Melhor separação de responsabilidades
 
-🛡️ Idempotência e Segurança
-Cada tentativa de pagamento gera um UUID único. Isso demonstra a preocupação com a idempotência: garantir que uma operação não seja executada duas vezes por erro de rede ou repetição de comando.
+---
 
-📊 Validação de Saldo Final
-Ao final de cada execução, o sistema calcula matematicamente o saldo esperado (saldoInicial - (valorTransacao * numThreads)) e compara com o saldo real no banco de dados, validando a integridade da lógica.
+## 📌 Funcionalidades
 
-📝 Como Executar
-Clone o repositório.
+✔ Criar transação (débito/crédito)  
+✔ Atualização de saldo  
+✔ Persistência com controle transacional  
+✔ Publicação de evento após commit  
+✔ Geração automática de PDF  
+✔ Notificação assíncrona  
+✔ Suporte a múltiplas requisições simultâneas  
 
-Certifique-se de ter o Java 17 instalado.
+---
 
-Execute a classe MinhaContaApplication.
+## 📊 Teste de Carga
 
-Acompanhe no console o relatório detalhado de tempo de execução e validação de saldo.
+Teste realizado com Apache Benchmark:
+
+- 50 requisições
+- Concurrency Level: 10
+- 0 falhas
+- Processamento estável
+- Eventos publicados corretamente
+- PDFs gerados de forma assíncrona
+
+---
+
+## 🔐 Modelagem de Domínio
+
+### Transacao
+
+- id
+- conta
+- valor
+- tipo (ENUM: DEBITO / CREDITO)
+- data
+
+Uso de `EnumType.STRING` para garantir segurança de tipo no banco.
+
+---
+
+## 🐳 Executando com Docker
+
+```bash
+docker compose up --build
