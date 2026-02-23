@@ -1,0 +1,12 @@
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\config\KafkaProducerConfig.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\consumer\PdfConsumidor.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\dto\PagamentoConfirmadoEvent.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\exception\SaldoInsuficienteException.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\MinhaContaApplication.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\model\Conta.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\model\TipoTransacao.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\model\Transacao.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\repository\ContaRepository.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\repository\TransacaoRepository.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\service\ContaCorrenteService.java
+C:\Users\thiag\OneDrive\Documentos\VSCode\mercadofinanceiro\src\main\java\com\financeiro\service\PdfService.java

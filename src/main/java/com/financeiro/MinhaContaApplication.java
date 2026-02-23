@@ -1,10 +1,6 @@
 package com.financeiro;
 
 import java.math.BigDecimal;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +10,6 @@ import org.springframework.retry.annotation.EnableRetry;
 
 import com.financeiro.model.Conta;
 import com.financeiro.repository.ContaRepository;
-import com.financeiro.service.ContaCorrenteService;
 
 
 @SpringBootApplication
@@ -25,7 +20,20 @@ public class MinhaContaApplication {
         SpringApplication.run(MinhaContaApplication.class, args);
     }
 
-    @Bean
+        @Bean
+    CommandLineRunner init(ContaRepository repository) {
+        return args -> {
+            if (repository.count() == 0) {
+                Conta conta = new Conta();
+                conta.setSaldo(new BigDecimal("50000.00"));
+                repository.save(conta);
+                System.out.println("Conta criada com saldo 50000");
+            }
+        };
+    }
+}
+
+    /*@Bean
     public CommandLineRunner demo(ContaCorrenteService service, ContaRepository contaRepo){
         return (args) -> {
             // 1- Setup inicial
@@ -80,6 +88,6 @@ public class MinhaContaApplication {
             }
             System.out.println("---------------------------------------------------\n");
         };
-    }
+    } */
 
-}
+

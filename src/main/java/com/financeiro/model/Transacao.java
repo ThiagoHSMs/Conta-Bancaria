@@ -2,52 +2,53 @@ package com.financeiro.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Transacao {
-    
+
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "conta_id", nullable = false)
+    @JsonIgnore
+    private Conta conta;
+
+    @Column(nullable = false)
+    private BigDecimal valor;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TipoTransacao tipo;
 
-    private BigDecimal valor;
-    private LocalDateTime dataHora;
+    @Column(nullable = false)
+    private LocalDateTime data;
 
-    // construtor padrão exigido pelo JPA
-    public Transacao(){
+    public Transacao() {}
 
-    }
-
-    public Transacao(UUID id, BigDecimal valor, TipoTransacao tipo, LocalDateTime dataHora){
-     this.id = id;
-     this.valor = valor;
-     this.tipo = tipo;
-     this.dataHora = dataHora;   
-    }
-
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public Conta getConta() {
+        return conta;
     }
 
-    public TipoTransacao getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoTransacao tipo) {
-        this.tipo = tipo;
+    public void setConta(Conta conta) {
+        this.conta = conta;
     }
 
     public BigDecimal getValor() {
@@ -58,13 +59,19 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public LocalDateTime getDataHora() {
-        return dataHora;
+    public TipoTransacao getTipo() {
+        return tipo;
     }
 
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
+    public void setTipo(TipoTransacao tipo) {
+        this.tipo = tipo;
     }
-    
-    
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
 }
